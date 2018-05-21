@@ -1,0 +1,10 @@
+Private-key-format: v1.3
+Algorithm: 3 (DSA)
+Prime(p): 93Z9BRket49H9In7C4Yx8AIH7J2jKSxEPxJ3ieZNxvgmrneetmECBlUnXDUwKuc/3oiGIcSPNE/sEiIm91PxHJ9REg1lQ9FwcIcCuRjAKbfD9QJVdyQbvRJVf5xIMBRC6OHqBp9lzWjCq8zORdFgeypBB1D2W/8bjjuJgOeLZr8=
+Subprime(q): /yQEzH0zH8MNlUTZAg2cbivstQk=
+Base(g): PZ+QkttQeznnAEC4F/3sohCGXA4+Sw8wcXVFMa6Z1NZ1WrkPCv/DVSbHk2IoncG3N/Quhn1li09pbe96eF9ZGxaplE942wYAqWJGdED3k42fNeM7NIz8zXMszj7i/Bnkw1+1oefF85JG3TmJZjXXvAsxvZ93Rji0LOjwMB8Rk0c=
+Private_value(x): gV7swXVrjGI82Z0KKvrmJfODl/M=
+Public_value(y): W5ouFK+NiahZcKx1rxWfnoP+H9bdPREOLZXbWhnfL8l9guCUOr9rcvBRym83sfqsFfW1oreaw2q1N9dOGZmW/qxehooqdrjVCLV7NtN7BpKZrT5PgXfcrsAjbAQpj5xZnV35p2DoDTfmykJA2Qlzh5VsgvIUBsAVF3+lx93jCms=
+Created: 20180518174722
+Publish: 20180518174722
+Activate: 20180518174722

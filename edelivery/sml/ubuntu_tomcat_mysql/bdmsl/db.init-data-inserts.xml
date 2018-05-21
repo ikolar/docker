@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--
+(C) Copyright 2018 - European Commission | CEF eDelivery
+
+Licensed under the EUPL, Version 1.2 (the "License");
+You may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+\BDMSL\bdmsl-parent-pom\LICENSE-EUPL-v1.2.pdf or https://joinup.ec.europa.eu/sites/default/files/custom-page/attachment/eupl_v1.2_en.pdf
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.3.xsd">
+
+    
+
+    <!-- Environment Specific -->
+    <changeSet author="eDelivery" id="999999" logicalFilePath="path-independent">
+        <update tableName="bdmsl_configuration">
+            <column name="value" value='false' type="LONGTEXT"/>
+            <where>property='dnsClient.SIG0Enabled'</where>
+        </update>
+        <update tableName="bdmsl_configuration">
+            <column name="value" value='false' type="LONGTEXT"/>
+            <where>property='signResponse'</where>
+        </update>
+        <update tableName="bdmsl_configuration">
+            <column name="value" value='true' type="LONGTEXT"/>
+            <where>property='dnsClient.enabled'</where>
+        </update>
+        <update tableName="bdmsl_configuration">
+            <column name="value" value='/opt/smlconf/' type="LONGTEXT"/>
+            <where>property='configurationDir'</where>
+        </update> 
+        <update tableName="bdmsl_configuration">
+            <column name="value" value='192.168.56.102' type="LONGTEXT"/>
+            <where>property='dnsClient.server'</where>
+        </update>
+ 	<update tableName="bdmsl_configuration">
+            <column name="value" value='true' type="LONGTEXT"/>
+            <where>property='unsecureLoginAllowed'</where>
+        </update>
+ 	<update tableName="bdmsl_configuration">
+            <column name="value" value='false' type="LONGTEXT"/>
+            <where>property='useProxy'</where>
+        </update>
+ 	<update tableName="bdmsl_configuration">
+            <column name="value" value='false' type="LONGTEXT"/>
+            <where>property='authentication.bluecoat.enabled'</where>
+        </update>
+
+    </changeSet>
+
+</databaseChangeLog>

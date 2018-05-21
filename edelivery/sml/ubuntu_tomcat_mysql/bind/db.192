@@ -1,0 +1,17 @@
+	;
+; BIND reverse data file for local loopback interface
+;
+$TTL	604800
+@	IN	SOA	 ns.acc.edelivery.tech.ec.europa.eu. root.acc.edelivery.tech.ec.europa.eu. (
+			      3		; Serial
+			 604800		; Refresh
+			  86400		; Retry
+			2419200		; Expire
+			 604800 )	; Negative Cache TTL
+;
+@       IN      NS      ns.
+102      IN      PTR     ns.acc.edelivery.tech.ec.europa.eu.
+
+; also list other computers
+101      IN      PTR    test.acc.edelivery.tech.ec.europa.eu.
+
