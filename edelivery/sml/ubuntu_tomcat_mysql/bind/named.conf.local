@@ -10,7 +10,9 @@
 zone "acc.edelivery.tech.ec.europa.eu" {
        type master;
        file "/etc/bind/db.acc.edelivery.tech.ec.europa.eu";
-       allow-update { key sig0.acc.edelivery.tech.ec.europa.eu. ; } ;
+       allow-update { 192.168/16;172.17/16; } ;
+
+//       allow-update { key sig0.acc.edelivery.tech.ec.europa.eu. ; } ;
 };
 
 
@@ -18,5 +20,6 @@ zone "56.168.192.in-addr.arpa" {
         type master;
         notify no;
         file "/etc/bind/db.192";
-        allow-update { key sig0.acc.edelivery.tech.ec.europa.eu. ; } ;
+        allow-update { 192.168/16;172.17/16; } ;
+//        allow-update { key sig0.acc.edelivery.tech.ec.europa.eu. ; } ;
 };

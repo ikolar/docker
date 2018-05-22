@@ -1,7 +1,7 @@
 $ORIGIN .
 $TTL 604800	; 1 week
 acc.edelivery.tech.ec.europa.eu		IN SOA	ns.acc.edelivery.tech.ec.europa.eu. root.acc.edelivery.tech.ec.europa.eu. (
-				7          ; serial
+				1          ; serial
 				604800     ; refresh (1 week)
 				86400      ; retry (1 day)
 				2419200    ; expire (4 weeks)
@@ -10,12 +10,5 @@ acc.edelivery.tech.ec.europa.eu		IN SOA	ns.acc.edelivery.tech.ec.europa.eu. root
 			NS	ns.acc.edelivery.tech.ec.europa.eu.
 $ORIGIN acc.edelivery.tech.ec.europa.eu.
 $TTL 60	; 1 minute
-aaa			A	192.168.56.201
-$TTL 604800	; 1 week
-bla			A	192.168.56.105
-cef			A	192.168.56.101
-$TTL 60	; 1 minute
-dat			A	192.168.56.200
-juhu			A	192.168.56.201
-$TTL 604800	; 1 week
+test			A	192.168.56.201
 ns			A	192.168.56.102
