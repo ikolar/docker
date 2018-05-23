@@ -24,20 +24,20 @@ init_wildfly() {
       mkdir -p ${WILDFLY_HOME}/standalone/log
     fi
     mv ${WILDFLY_HOME}/standalone/log ${DATA_DIR}/
-    rm -rf ${WILDFLY_HOME}/standalone/log
-    ln -sf ${DATA_DIR}/log ${WILDFLY_HOME}/standalone/log
-    chown -R lovro:lovro  ${WILDFLY_HOME}/standalone/log
   fi
+  rm -rf ${WILDFLY_HOME}/standalone/log
+  ln -sf ${DATA_DIR}/log ${WILDFLY_HOME}/standalone/log
+  chown -R lovro:lovro  ${WILDFLY_HOME}/standalone/log
 
   if [ ! -d ${DATA_DIR}/data ]; then
     if [ ! -d ${WILDFLY_HOME}/standalone/data ]; then
       mkdir -p ${WILDFLY_HOME}/standalone/data
     fi
     mv ${WILDFLY_HOME}/standalone/data ${DATA_DIR}/
-    rm -rf ${WILDFLY_HOME}/standalone/data
-    ln -sf ${DATA_DIR}/data ${WILDFLY_HOME}/standalone/data
-    chown -R lovro:lovro ${WILDFLY_HOME}/standalone/data
   fi
+  rm -rf ${WILDFLY_HOME}/standalone/data
+  ln -sf ${DATA_DIR}/data ${WILDFLY_HOME}/standalone/data
+  chown -R lovro:lovro ${WILDFLY_HOME}/standalone/data
   chown -R lovro:lovro  ${DATA_DIR}
 }
 
