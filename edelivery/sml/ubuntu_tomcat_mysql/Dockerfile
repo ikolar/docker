@@ -86,11 +86,10 @@ ENV LD_LIBRARY_PATH=/usr/local/apr/lib
 
 COPY bdmsl/keystore.jks /opt/smlconf/keystore.jks 
 COPY bdmsl/encriptionPrivateKey.private /opt/smlconf/encriptionPrivateKey.private
-COPY bind/db.acc.edelivery.tech.ec.europa.eu /opt/smlconf/bind/db.acc.edelivery.tech.ec.europa.eu 
-COPY bind/db.192 /opt/smlconf/bind/db.192
+COPY bind/db.test.edelivery.local /opt/smlconf/bind/db.test.edelivery.local 
+COPY bind/db.192.168 /opt/smlconf/bind/db.192.168
 COPY bind/named.conf /opt/smlconf/bind/named.conf 
 COPY bind/named.conf.local /opt/smlconf/bind/named.conf.local
-#COPY bind/K.acc.edelivery.tech.ec.europa.eu.+157+07602.key /opt/smlconf/SIG0.private
 COPY entrypoint.sh /sbin/entrypoint.sh 
 
 RUN chmod 755 /sbin/entrypoint.sh

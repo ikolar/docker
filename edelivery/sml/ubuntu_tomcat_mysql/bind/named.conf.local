@@ -7,19 +7,18 @@
 //include "/etc/bind/zones.rfc1918";
 
 
-zone "acc.edelivery.tech.ec.europa.eu" {
+zone "test.edelivery.local" {
        type master;
-       file "/etc/bind/db.acc.edelivery.tech.ec.europa.eu";
-       allow-update { 192.168/16;172.17/16; } ;
+       file "/etc/bind/db.test.edelivery.local";
+       allow-update { 192.168/16;172.17/16;localhost;  } ;
 
-//       allow-update { key sig0.acc.edelivery.tech.ec.europa.eu. ; } ;
 };
 
 
-zone "56.168.192.in-addr.arpa" {
+zone "168.192.in-addr.arpa" {
         type master;
         notify no;
-        file "/etc/bind/db.192";
-        allow-update { 192.168/16;172.17/16; } ;
-//        allow-update { key sig0.acc.edelivery.tech.ec.europa.eu. ; } ;
+        file "/etc/bind/db.192.168";
+        allow-update { 192.168/16;172.17/16;localhost; } ;
+
 };

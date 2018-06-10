@@ -66,7 +66,7 @@
 
     <!-- MIGRATION SCRIPT -->
     <changeSet id="41" author="eDelivery" logicalFilePath="path-independent">
-        <validCheckSum>7:c0759dbf9933e866bace1aac5a5fc589</validCheckSum>
+        <validCheckSum>7:9f0ff5e7999fa57bd03099e4372326dd</validCheckSum>
         <sql dbms="oracle,h2">
             insert into bdmsl_subdomain(subdomain_id, subdomain_name)
             select rownum, dom from (select distinct domain dom from bdmsl_certificate_domain);

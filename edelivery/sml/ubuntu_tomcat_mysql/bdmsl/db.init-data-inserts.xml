@@ -59,4 +59,47 @@ limitations under the License.
 
     </changeSet>
 
+     <!-- Set new domain -->
+    <changeSet author="eDelivery" id="999991" logicalFilePath="path-independent">
+	<delete  tableName="bdmsl_configuration">
+        	<where>property like '%.ec.europa.eu'</where>
+    	</delete>
+
+        <update tableName="bdmsl_subdomain">
+            <column name="subdomain_name" value='test.edelivery.local' type="LONGTEXT"/>
+            <where>subdomain_id='1'</where>
+        </update>
+
+        <insert tableName="bdmsl_configuration">
+            <column name="property" value="dnsClient.domain.test.edelivery.local"/>
+            <column name="value" value="test.edelivery.local"/>
+            <column name="description"
+                    value="Test domain"/>
+        </insert>
+ 	<insert tableName="bdmsl_configuration">
+            <column name="property"
+                    value="subdomain.validation.participantIdRegex.test.edelivery.local"/>
+            <column name="value"
+                    value="^.*$"/>
+            <column name="description"
+                    value="Regex allows specific and described ids only or '*' instead for having wildcards."/>
+        </insert>
+   	<insert tableName="bdmsl_configuration">
+            <column name="property"
+                    value="subdomain.validation.smpLogicalAddressProtocolRestriction.test.edelivery.local"
+                    type="LONGTEXT"/>
+            <column name="value" value="all"/>
+            <column name="description"
+                    value="Protocol that MUST be used for LogicalAddress when registering new SMP, 'all' means both protocols are accepted possible values: [ http, https, all]."/>
+        </insert>
+         <insert tableName="bdmsl_configuration">
+            <column name="property"
+                    value="dnsClient.recordTypes.test.edelivery.local"/>
+            <column name="value" value="all"/>
+            <column name="description"
+                    value="Type of DNS Record when registering/updating participant, 'all' means that both DNS record types are accepted as possible values: [cname, naptr, all]."/>
+        </insert>
+
+    </changeSet>
+
 </databaseChangeLog>
