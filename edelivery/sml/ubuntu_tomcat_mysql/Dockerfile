@@ -34,6 +34,11 @@ RUN apt-get update \
         openjdk-8-jdk \
 	unzip \
         wget \
+  	libapr1 \
+	libapr1-dev \
+	libssl-dev \
+	gcc \
+	make \
    && rm -rf /var/lib/apt/lists/* \
 # create user
    && groupadd tomcat \
@@ -60,7 +65,7 @@ RUN apt-get update \
    && mv /opt/edelivery-sml.war $TOMCAT_HOME/webapps/edelivery-sml.war \
    && rm /opt/tomcat.zip \
    && mkdir -p $TOMCAT_HOME/webapps/WEB-INF/classes/liquibase/ \
-   && mv  /temp/db.* $TOMCAT_HOME/webapps/WEB-INF/classes/liquibase/ \
+   && cp /temp/db.* $TOMCAT_HOME/webapps/WEB-INF/classes/liquibase/ \
    && jar -uf  $TOMCAT_HOME/webapps/edelivery-sml.war -C $TOMCAT_HOME/webapps/ WEB-INF/classes/liquibase/db.changelog-master.xml \
    && jar -uf  $TOMCAT_HOME/webapps/edelivery-sml.war -C $TOMCAT_HOME/webapps/ WEB-INF/classes/liquibase/db.init-data-inserts.xml \
 # bugfix for mysql: fixed in 3.1.3
@@ -71,7 +76,13 @@ RUN apt-get update \
    && echo "[mysqld]" >> /etc/mysql/my.cnf  \
    && echo "lower_case_table_names = 1" >> /etc/mysql/my.cnf  \
    && sed -i -e "s/127.0.0.1/0.0.0.0/g" /etc/mysql/mysql.conf.d/mysqld.cnf
-   
+RUN cd $TOMCAT_HOME/bin \
+	&& tar xfz tomcat-native.tar.gz \
+	&& cd tomcat-native-1.2.16-src/native \
+        && ./configure && make && make install 
+
+ENV LD_LIBRARY_PATH=/usr/local/apr/lib
+
 
 COPY bdmsl/keystore.jks /opt/smlconf/keystore.jks 
 COPY bdmsl/encriptionPrivateKey.private /opt/smlconf/encriptionPrivateKey.private
@@ -84,7 +95,7 @@ COPY entrypoint.sh /sbin/entrypoint.sh
 
 RUN chmod 755 /sbin/entrypoint.sh
 
-EXPOSE 53/udp 53/tcp 3306/tcp 8080/tcp
+EXPOSE 53/udp 53/tcp 3306 8080 8443
 
 ENTRYPOINT ["/sbin/entrypoint.sh"]
 CMD ["/usr/sbin/named"]
