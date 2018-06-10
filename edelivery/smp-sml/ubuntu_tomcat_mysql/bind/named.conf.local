@@ -1,0 +1,24 @@
+//
+// Do any local configuration here
+//
+
+// Consider adding the 1918 zones here, if they are not used in your
+// organization
+//include "/etc/bind/zones.rfc1918";
+
+
+zone "test.edelivery.local" {
+       type master;
+       file "/etc/bind/db.test.edelivery.local";
+       allow-update { 192.168/16;172.17/16;localhost;  } ;
+
+};
+
+
+zone "168.192.in-addr.arpa" {
+        type master;
+        notify no;
+        file "/etc/bind/db.192.168";
+        allow-update { 192.168/16;172.17/16;localhost; } ;
+
+};
