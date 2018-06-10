@@ -6,7 +6,7 @@ export JAVA_HOME=`type -p javac|xargs readlink -f|xargs dirname|xargs dirname`
 
 BIND_DATA_DIR=${DATA_DIR}/bind
 MYSQL_DATA_DIR=${DATA_DIR}/mysql
-TOMCAT_LOG_DIR=${DATA_DIR}/tomcat
+TOMCAT_DIR=${DATA_DIR}/tomcat
 
 if [ ! -d ${DATA_DIR} ]; then
    mkdir -p ${DATA_DIR}
@@ -27,7 +27,7 @@ init_bind() {
 }
 
 init_mysql() {
-   if [ ! -d ${MYSQL_DATA_DIR} ]; then
+  if [ ! -d ${MYSQL_DATA_DIR} ]; then
     mv /var/lib/mysql ${MYSQL_DATA_DIR}
   fi
   
@@ -40,21 +40,47 @@ init_mysql() {
   service mysql start
 
   if  [ ! -d ${MYSQL_DATA_DIR}/${DB_SCHEMA} ]; then
+     # create database
      mysql -h localhost -u root -e "ALTER USER 'root'@'localhost' IDENTIFIED BY '$MYSQL_ROOT_PASSWORD';drop schema if exists $DB_SCHEMA;DROP USER IF EXISTS $DB_USER;  create schema $DB_SCHEMA;alter database     $DB_SCHEMA charset=utf8; create user $DB_USER identified by '$DB_USER';grant all on $DB_SCHEMA.* to $DB_USER;"
+     # change db init file
   fi
+    # change db init file alway else at new run (not start container) liquibase will return error
+   if  [ -f ${DATA_DIR}/init/db.init.xml ]; then
+	mkdir -p $TOMCAT_HOME/webapps/WEB-INF/classes/liquibase/
+        cp ${DATA_DIR}/init/db.init.xml $TOMCAT_HOME/webapps/WEB-INF/classes/liquibase/db.init-data-inserts.xml
+        jar -uf  $TOMCAT_HOME/webapps/edelivery-sml.war -C $TOMCAT_HOME/webapps/ WEB-INF/classes/liquibase/db.init-data-inserts.xml 
+        rm -rf $TOMCAT_HOME/webapps/WEB-INF 
+    fi
 }
 
 
 init_tomcat() {
 
-  # 
-  if [ ! -d ${TOMCAT_LOG_DIR} ]; then
-     mkdir -p ${TOMCAT_LOG_DIR}
+  echo "[INFO] init tomcat folders: $tfile"
+  if [ ! -d ${TOMCAT_DIR} ]; then
+    mkdir -p ${TOMCAT_DIR}
   fi
-  rm -rf ${TOMCAT_HOME}/logs
-  ln -sf ${TOMCAT_LOG_DIR} ${TOMCAT_HOME}/logs
-  chown -R tomcat:tomcat ${TOMCAT_LOG_DIR}
-  chmod -R 0775 ${TOMCAT_LOG_DIR}
+
+  # move tomcat log folder to data folder
+  if [ ! -d ${TOMCAT_DIR}/logs ]; then
+    if [ ! -d  ${TOMCAT_HOME}/logs  ]; then
+      mkdir -p ${TOMCAT_DIR}/logs
+    else 
+      mv ${TOMCAT_HOME}/logs ${TOMCAT_DIR}/
+      rm -rf ${TOMCAT_HOME}/logs 
+    fi
+  fi
+  rm -rf ${TOMCAT_HOME}/logs 
+  ln -sf ${TOMCAT_DIR}/logs ${TOMCAT_HOME}/logs
+
+  # move domibus conf folder to data folder
+  if [ ! -d ${TOMCAT_DIR}/conf ]; then
+    mv ${TOMCAT_HOME}/conf ${TOMCAT_DIR}/
+  fi
+  rm -rf ${TOMCAT_HOME}/conf 
+    ln -sf ${TOMCAT_DIR}/conf ${TOMCAT_HOME}/conf
+  chown -R tomcat:tomcat ${TOMCAT_DIR}
+  chmod u+x $TOMCAT_HOME/bin/*.sh
   # start tomcat
   cd ${TOMCAT_HOME}/bin/
   su -c ./startup.sh -s /bin/sh tomcat
