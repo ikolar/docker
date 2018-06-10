@@ -5,9 +5,11 @@ Bind domain is setup to domain: test.edelivery.local
 
 # Image build
 
-docker build -t .
+docker build -t sml .
 
 # Run container based on sml image
+docker run --name sml -it --rm -p [http-port]:8080 -p [https-port]:8443 -p [mysql-port]:3306 -p [dns-port]:53/udp -p [dns-port]:53/tcp -v [local volume]:/data sml
+example:
 docker run --name sml -it --rm -p 8080:8080 -p 8443:8443 -p 3306:3306 -p 53:53/udp -p 53:53/tcp -v /opt/dockerdata/sml:/data sml
 
 ## SML (param: -p 8080:8080 -p 8443:8443)
@@ -15,7 +17,6 @@ url: http://localhost:8080/edelivery-sml/
 For testing https authentication:
 url: https://localhost:8443/edelivery-sml/
 
-## MYSQL  (param: -p 3306:3306)
 ## MYSQL (param: -p 3306:3306)
 Database client connection (for testing and debugging )
 url: jdbc:mysql://localhost:3306/bdmsl
@@ -29,7 +30,7 @@ To change initial network sertings alter configuration in bind folder and rebuil
 
 
 ## Volume (-v /opt/dockerdata/sml:/data)
-Mysql database files, bind configuration files and tomcat configuration (and logs) can be externalized for experimenting with different XML settings.
+Mysql database files, bind configuration files and tomcat configuration (and logs) can be externalized for experimenting with different SML settings.
 
 
 
