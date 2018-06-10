@@ -11,6 +11,7 @@ DB_SCHEMA=${DB_SCHEMA:-"smp"}
 DATA_DIR=/data
 MYSQL_DATA_DIR=${DATA_DIR}/mysql
 TOMCAT_DIR=${DATA_DIR}/tomcat
+TOMCAT_HOME=${SMP_HOME}/apache-tomcat-$TOMCAT_VERSION/
 
 
 if [ ! -d ${DATA_DIR} ]; then
@@ -24,22 +25,32 @@ init_tomcat() {
   fi
 
   # move tomcat log folder to data folder
-  if [ ! -d ${TOMCAT_DIR}/log ]; then
-    if [ ! -d  ${SMP_HOME}/apache-tomcat-$TOMCAT_VERSION/log  ]; then
-      mkdir -p ${TOMCAT_DIR}/log
+  if [ ! -d ${TOMCAT_DIR}/logs ]; then
+    if [ ! -d  ${TOMCAT_HOME}/logs  ]; then
+      mkdir -p ${TOMCAT_DIR}/logs
     else 
-      mv ${SMP_HOME}/apache-tomcat-$TOMCAT_VERSION/log ${TOMCAT_DIR}/
-      rm -rf ${SMP_HOME}/apache-tomcat-$TOMCAT_VERSION/log 
+      mv ${TOMCAT_HOME}/logs ${TOMCAT_DIR}/
+      rm -rf ${TOMCAT_HOME}/logs 
     fi
-    ln -sf ${TOMCAT_DIR}/log ${SMP_HOME}/apache-tomcat-$TOMCAT_VERSION/log
   fi
+  rm -rf ${TOMCAT_HOME}/logs 
+  ln -sf ${TOMCAT_DIR}/logs ${TOMCAT_HOME}/logs
 
-  # move domibus conf folder to data folder
- if [ ! -d ${TOMCAT_DIR}/conf ]; then
-    mv $SMP_HOME/apache-tomcat-$TOMCAT_VERSION/smp ${TOMCAT_DIR}/
-    rm -rf $SMP_HOME/apache-tomcat-$TOMCAT_VERSION/smp
-    ln -sf ${TOMCAT_DIR}/smp $SMP_HOME/apache-tomcat-$TOMCAT_VERSION/smp
+  # move tomcat conf folder to data folder
+  if [ ! -d ${TOMCAT_DIR}/conf ]; then
+    mv ${TOMCAT_HOME}/conf ${TOMCAT_DIR}/
   fi
+  rm -rf ${TOMCAT_HOME}/conf 
+  ln -sf ${TOMCAT_DIR}/conf ${TOMCAT_HOME}/conf
+
+  # move smp conf folder to data folder
+  if [ ! -d ${TOMCAT_DIR}/smp ]; then
+    mv ${TOMCAT_HOME}/smp ${TOMCAT_DIR}/
+  fi
+  rm -rf ${TOMCAT_HOME}/smp 
+  ln -sf ${TOMCAT_DIR}/smp ${TOMCAT_HOME}/smp
+
+
 
   sed -i -e "s#jdbc:mysql://localhost:3306/smp#jdbc:mysql://localhost:3306/$DB_SCHEMA#g" "$SMP_HOME/apache-tomcat-$TOMCAT_VERSION/smp/conf/smp.config.properties"
   sed -i -e "s#jdbc.user\s*=\s*smp#jdbc.user=$DB_USER#g" "$SMP_HOME/apache-tomcat-$TOMCAT_VERSION/smp/conf/smp.config.properties"
@@ -88,8 +99,9 @@ init_tomcat
 
 echo '[INFO] start running domibus'
 chmod u+x $SMP_HOME/apache-tomcat-$TOMCAT_VERSION/bin/*.sh
-
-exec $SMP_HOME/apache-tomcat-$TOMCAT_VERSION/bin/catalina.sh run
+cd $SMP_HOME/apache-tomcat-$TOMCAT_VERSION/
+# run from this folder in order to be smp log in logs folder
+exec ./bin/catalina.sh run
 
 
 

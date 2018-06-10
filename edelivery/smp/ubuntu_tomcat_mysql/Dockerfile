@@ -15,11 +15,11 @@ ENV SMP_VERSION=4.0.0  \
     TOMCAT_SHA512=51d8877782bc975b8c566263df7e55f383e617aa3c81ea2c219fed18e1f5d9e8233a92100de95b9a8df69ce5c0ad89a195d5b7e5647fcf9df26231870073a9cb   \
     DB_SCHEMA=smp  \
     DB_USER=smp  \ 
-    DB_USER_PASSWORD=secret123  \
+    DB_USER_PASSWORD=smp  \
     MYSQL_ROOT_PASSWORD=root  
 
 # install utils, java, mysql   \
-    && apt-get update \
+RUN apt-get update \
     && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
         mysql-server \
         openjdk-8-jdk \
@@ -52,8 +52,9 @@ ENV SMP_VERSION=4.0.0  \
 
 VOLUME ["/data"]
 
-COPY ./entrypoint.sh /sbin/entrypoint.sh  \
-    && chmod u+x /sbin/entrypoint.sh
+COPY ./entrypoint.sh /sbin/entrypoint.sh 
+RUN chmod u+x /sbin/entrypoint.sh \
+      && sed -i -e "s/127.0.0.1/0.0.0.0/g" /etc/mysql/mysql.conf.d/mysqld.cnf
 
 EXPOSE 3306 8080
 
